@@ -11,7 +11,7 @@ services:
       - "53"
 
   nginx:
-    image: openlmis/nginx:${OL_NGINX_VERSION}
+    image: openlmis/nginx:5
     ports:
       - "${OL_HTTP_PORT:-80}:80"
     env_file: settings.env
@@ -23,12 +23,12 @@ services:
     depends_on: [consul]
 
   reference-ui:
-    image: openlmis/reference-ui:${OL_REFERENCE_UI_VERSION}
+    image: openlmis/reference-ui:5.2.8-SNAPSHOT
     env_file: settings.env
     depends_on: [consul]
 
   requisition:
-    image: openlmis/requisition:${OL_REQUISITION_VERSION}
+    image: openlmis/requisition:8.3.8-SNAPSHOT
     env_file: settings.env
     environment:
       JAVA_OPTS: '-server -Xmx1024m -Dlogging.config=/config/log/logback.xml'
@@ -38,7 +38,7 @@ services:
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   referencedata:
-    image: openlmis/referencedata:${OL_REFERENCEDATA_VERSION}
+    image: openlmis/referencedata:15.2.7-SNAPSHOT
     env_file: settings.env
     environment:
       JAVA_OPTS: '-server -Xmx1024m -Dlogging.config=/config/log/logback.xml'
@@ -48,7 +48,7 @@ services:
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   auth:
-    image: openlmis/auth:${OL_AUTH_VERSION}
+    image: openlmis/auth:4.3.4-SNAPSHOT
     env_file: settings.env
     environment:
       JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
@@ -58,7 +58,7 @@ services:
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   notification:
-    image: openlmis/notification:${OL_NOTIFICATION_VERSION}
+    image: openlmis/notification:4.3.4-SNAPSHOT
     env_file: settings.env
     environment:
       JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
@@ -68,7 +68,7 @@ services:
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   fulfillment:
-    image: openlmis/fulfillment:${OL_FULFILLMENT_VERSION}
+    image: openlmis/fulfillment:9.0.6-SNAPSHOT
     env_file: settings.env
     environment:
       JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
@@ -78,7 +78,7 @@ services:
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   cce:
-    image: openlmis/cce:${OL_CCE_VERSION}
+    image: openlmis/cce:1.3.3-SNAPSHOT
     env_file: settings.env
     environment:
       JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
@@ -88,7 +88,7 @@ services:
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   stockmanagement:
-    image: openlmis/stockmanagement:${OL_STOCKMANAGEMENT_VERSION}
+    image: openlmis/stockmanagement:5.1.10-SNAPSHOT
     env_file: settings.env
     environment:
       JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
@@ -98,7 +98,7 @@ services:
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   report:
-    image: openlmis/report:${OL_REPORT_VERSION}
+    image: openlmis/report:1.2.3-SNAPSHOT
     env_file: settings.env
     environment:
       JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
@@ -108,7 +108,7 @@ services:
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   buq:
-    image: openlmis/buq:${OL_BUQ_VERSION}
+    image: openlmis/buq:1.0.0-SNAPSHOT
     env_file: settings.env
     environment:
       JAVA_OPTS: '-server -Xmx1024m -Dlogging.config=/config/log/logback.xml'
@@ -119,7 +119,7 @@ services:
 
   hapifhir:
     restart: always
-    image: openlmis/hapifhir:${OL_HAPIFHIR_VERSION}
+    image: openlmis/hapifhir:2.0.3-SNAPSHOT
     env_file: settings.env
     environment:
       JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
@@ -130,7 +130,7 @@ services:
     command: ["/wait-for-postgres.sh", "/run.sh"]
     
   diagnostics:
-    image: openlmis/diagnostics:${OL_DIAGNOSTICS_VERSION}
+    image: openlmis/diagnostics:1.1.3-SNAPSHOT
     env_file: settings.env
     environment:
       JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
@@ -140,7 +140,7 @@ services:
     depends_on: [log]
 
   db:
-    image: openlmis/postgres:${OL_POSTGRES_VERSION}
+    image: openlmis/postgres:12-debezium
     env_file: settings.env
     networks:
       default:
@@ -149,7 +149,7 @@ services:
     depends_on: [consul]
 
   log:
-    image: openlmis/rsyslog:${OL_RSYSLOG_VERSION}
+    image: openlmis/rsyslog:2
     volumes:
       - 'syslog:/var/log'
     depends_on:
@@ -163,7 +163,7 @@ services:
       - service-config:/config
 
   ftp:
-    image: hauptmedia/proftpd
+    image: hauptmedia/proftpd:latest
     ports:
       - "${OL_FTP_PORT_21:-21}:21"
       - "${OL_FTP_PORT_20:-20}:20"
